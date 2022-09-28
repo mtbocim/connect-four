@@ -8,8 +8,7 @@
  */
 
 const WIDTH = 7;
-const HEIGHT = 6;
-const GAME_BOARD = document.querySelector("#board");
+const HEIGHT = 6; 
 
 let currPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[y][x])
@@ -33,7 +32,7 @@ function makeBoard() {
 
 function makeHtmlBoard() {
 
-  let htmlBoard = GAME_BOARD;
+  let htmlBoard = document.querySelector("#board");
 
   // Create header row, setting the id and the event listener
   const headerRow = document.createElement("tr");
@@ -66,15 +65,21 @@ function makeHtmlBoard() {
 
 /** findValidRowInColumn: given column x, return bottom empty y (null if filled) */
 
-function findValidRowInColumn(column) {
+function findSpotForCol(column) {
   // TODO: write the real version of this, rather than always returning 5
   return 5;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
 
-function placeInCell(y, x) {
-  // TODO: make a div and insert into correct table cell
+function placeInTable(y, x) {
+  const piece = document.createElement("div");
+  piece.classList.add("piece", `p${currPlayer}`);
+  // Need to do as classlist, setAttribute takes last one set
+  // piece.setAttribute("class", "piece");
+  // piece.setAttribute("class", `p${currPlayer}`);
+  //document.querySelector(`#${y}-${x}`).append(piece); won't properly select, needs letter before number #c${y}-${x}
+  document.getElementById(`${y}-${x}`).append(piece);
 }
 
 /** endGame: announce game end */
