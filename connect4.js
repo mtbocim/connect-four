@@ -8,7 +8,7 @@
  */
 
 const WIDTH = 7;
-const HEIGHT = 6; 
+const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[y][x])
@@ -102,6 +102,8 @@ function handleClick(evt) {
     return;
   }
 
+  board[y][x] = currPlayer === 1 ? 1 : 2;
+
   // place piece in board and add to HTML table
   // TODO: add line to update in-memory board
   placeInTable(y, x);
@@ -112,10 +114,10 @@ function handleClick(evt) {
   }
 
   // check for tie
-  // TODO: check if all cells in board are filled; if so call, call endGame
+  board.flat(2).every(cell => cell !== null);
 
   // switch players
-  // TODO: switch currPlayer 1 <-> 2
+  currPlayer = currPlayer === 1 ? 2 : 1;
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
