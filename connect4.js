@@ -22,7 +22,8 @@ function makeBoard() {
   for(let y = 0; y<HEIGHT; y++){
     board.push([]);
     for(let x = 0; x<WIDTH; x++){
-      board[y].push([null]);
+      //board[y].push([1]); simulate board filled
+      board[y].push(null);
     }
   }
 }
@@ -65,9 +66,17 @@ function makeHtmlBoard() {
 
 /** findValidRowInColumn: given column x, return bottom empty y (null if filled) */
 
-function findSpotForCol(column) {
+function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 5
-  return 5;
+  // start at y = 5, if it is filled, move up.  repeat.  if 0 filled return null
+  
+  for(let y = 5; y>=0; y--){
+    //debugger;
+    if(board[y][x]===null){
+      return y;
+    }
+  }
+  return null;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
@@ -85,7 +94,9 @@ function placeInTable(y, x) {
 /** endGame: announce game end */
 
 function endGame(msg) {
-  // TODO: pop up alert message
+  alert(msg);
+  const smallPause = 3000;
+  setTimeout(()=>location.reload(), smallPause);
 }
 
 
@@ -114,7 +125,10 @@ function handleClick(evt) {
   }
 
   // check for tie
-  board.flat(2).every(cell => cell !== null);
+  if(board.flat().every(cell => cell !== null)){
+    //game over
+    endGame("It's a tie")
+  }
 
   // switch players
   currPlayer = currPlayer === 1 ? 2 : 1;
@@ -147,9 +161,9 @@ function checkForWin() {
       // [ [y, x], [y, x], [y, x], [y, x] ]
 
       let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      let vert;
-      let diagDL;
-      let diagDR;
+      let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
+      let diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
+      let diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
 
       // find winner (only checking each win-possibility as needed)
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
