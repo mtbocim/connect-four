@@ -69,7 +69,7 @@ function makeHtmlBoard() {
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 5
   // start at y = 5, if it is filled, move up.  repeat.  if 0 filled return null
-  
+
   for(let y = 5; y>=0; y--){
     //debugger;
     if(board[y][x]===null){
@@ -143,7 +143,21 @@ function checkForWin() {
    * returns true if all are legal coordinates for a cell & all cells match
    * currPlayer
    */
-  function _win(cells) {
+function _win(cells) {
+     return cells.every(cell => {
+      let y = cell[0];
+      let x = cell[1];
+
+      if (y >= HEIGHT
+        || x >= WIDTH
+        || y < 0
+        || x < 0) {
+        return false;
+      } else {
+        return board[y][x] === currPlayer;
+      }
+    })
+
 
     // TODO: Check four cells to see if they're all legal & all color of current
     // player
